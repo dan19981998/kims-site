@@ -993,37 +993,18 @@
             background: var(--navy);
         }
 
-        .booking-form {
-            display: flex;
-            flex-direction: column;
-            gap: 18px;
-        }
-
-        .booking-form input {
-            width: 100%;
-            height: 44px;
-            border: 0;
-            outline: none;
-            border-radius: 0;
-            padding: 0 20px;
-            font-size: 13px;
-            color: #555;
-            background: #e7e7e7;
-        }
-
-        .booking-form input::placeholder {
-            color: #a7a7a7;
-        }
-
-        .booking-form button {
-            width: 100%;
-            height: 44px;
-            margin-top: 20px;
+        .booking-cta {
+            display: inline-block;
+            height: 48px;
+            margin-top: 8px;
+            padding: 0 40px;
             border: 0;
             border-radius: 0;
             cursor: pointer;
             font-size: 13px;
             font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
             color: #fff;
             background: var(--navy);
             transition:
@@ -1031,9 +1012,70 @@
                 opacity 0.2s ease;
         }
 
-        .booking-form button:hover {
+        .booking-cta:hover {
             transform: translateY(-1px);
             opacity: 0.92;
+        }
+
+        .booking-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .booking-modal.open {
+            display: flex;
+        }
+
+        .booking-modal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 2, 11, 0.72);
+        }
+
+        .booking-modal-box {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            height: 90vh;
+            max-height: 860px;
+            overflow: hidden;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+        }
+
+        .booking-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            z-index: 2;
+            width: 38px;
+            height: 38px;
+            border: 0;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            line-height: 1;
+            color: #333;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+            transition: background 0.2s ease;
+        }
+
+        .booking-modal-close:hover {
+            background: #ececec;
+        }
+
+        .booking-modal-frame {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
         }
 
         .booking-image {
@@ -1136,17 +1178,10 @@
                 margin-bottom: 27px;
             }
 
-            .booking-form {
-                gap: 14px;
-            }
-
-            .booking-form input,
-            .booking-form button {
-                height: 46px;
-            }
-
-            .booking-form button {
-                margin-top: 16px;
+            .booking-cta {
+                width: 100%;
+                height: 48px;
+                padding: 0;
             }
         }
 
@@ -2230,23 +2265,28 @@
 
                     <p class="booking-copy">
                         <span class="booking-line"></span>
-                        Leave your phone number and our specialist will contact you soon to
-                        schedule you at a suitable time.
+                        Book your appointment online in just a few clicks and our specialist
+                        will be ready for you at a time that suits.
                     </p>
 
-                    <form class="booking-form" id="bookingForm">
-                        <input type="text" id="bookingName" placeholder="Name" required />
-                        <input type="tel" id="bookingPhone" placeholder="Phone number" required />
-
-                        <button type="submit">
-                            Submit
-                        </button>
-                    </form>
+                    <button type="button" class="booking-cta" id="openBooking">
+                        Book now
+                    </button>
                 </div>
             </div>
 
             <div class="booking-image" aria-hidden="true"></div>
         </section>
+
+        <div class="booking-modal" id="bookingModal" role="dialog" aria-modal="true" aria-label="Book an appointment">
+            <div class="booking-modal-overlay" data-close-booking></div>
+            <div class="booking-modal-box">
+                <button type="button" class="booking-modal-close" id="closeBooking"
+                    aria-label="Close booking">&times;</button>
+                <iframe class="booking-modal-frame" id="bookingFrame" title="Book an appointment" loading="lazy"
+                    allow="payment"></iframe>
+            </div>
+        </div>
 
         <section class="about-section" id="about">
             <div class="about-wrap">
@@ -2413,23 +2453,37 @@
             }
         });
 
-        const bookingForm = document.getElementById("bookingForm");
+        const bookingModal = document.getElementById("bookingModal");
+        const openBooking = document.getElementById("openBooking");
+        const closeBooking = document.getElementById("closeBooking");
+        const bookingFrame = document.getElementById("bookingFrame");
+        const bookingUrl =
+            "https://book.squareup.com/appointments/n5zgthho77xvez/location/L6CNB4Y0861GP/services/3XRU4YUQZ66QEUJB7JC6WQQC";
 
-        bookingForm.addEventListener("submit", (event) => {
-            event.preventDefault();
+        function openBookingModal() {
+            if (!bookingFrame.src) {
+                bookingFrame.src = bookingUrl;
+            }
+            bookingModal.classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
 
-            const name = document.getElementById("bookingName").value.trim();
-            const phone = document.getElementById("bookingPhone").value.trim();
+        function closeBookingModal() {
+            bookingModal.classList.remove("open");
+            document.body.style.overflow = "";
+        }
 
-            const subject = "New massage booking request";
-            const body =
-                "Name: " + name + "\n" +
-                "Phone number: " + phone;
+        openBooking.addEventListener("click", openBookingModal);
+        closeBooking.addEventListener("click", closeBookingModal);
 
-            window.location.href =
-                "mailto:escapetherapy@icloud.com" +
-                "?subject=" + encodeURIComponent(subject) +
-                "&body=" + encodeURIComponent(body);
+        bookingModal.querySelectorAll("[data-close-booking]").forEach((el) => {
+            el.addEventListener("click", closeBookingModal);
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && bookingModal.classList.contains("open")) {
+                closeBookingModal();
+            }
         });
 
         const contactForm = document.getElementById("contactForm");
