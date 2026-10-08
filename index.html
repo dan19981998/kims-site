@@ -334,6 +334,7 @@
             padding: 18px 34px;
             font-weight: 700;
             font-size: 16px;
+            font-family: inherit;
             cursor: pointer;
             transition:
                 transform 0.2s ease,
@@ -809,6 +810,64 @@
             margin-top: 8px;
         }
 
+        .price-list {
+            margin-top: 8px;
+        }
+
+        .price-service {
+            padding: 26px 0;
+            border-bottom: 1px solid #eadfe0;
+        }
+
+        .price-service:first-child {
+            padding-top: 4px;
+        }
+
+        .price-service:last-child {
+            border-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .price-service-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 12px;
+        }
+
+        .price-service-name {
+            font-family: var(--heading);
+            font-style: italic;
+            font-size: 23px;
+            font-weight: 600;
+            line-height: 1.25;
+            color: var(--navy);
+        }
+
+        .price-service-meta {
+            flex-shrink: 0;
+            font-family: var(--heading);
+            font-style: italic;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--navy);
+            white-space: nowrap;
+        }
+
+        .price-service-meta span {
+            margin: 0 4px;
+            color: var(--orange);
+        }
+
+        .price-service-desc {
+            margin: 0;
+            font-size: 14.5px;
+            line-height: 1.75;
+            color: var(--muted);
+            max-width: 72ch;
+        }
+
         .pricing-col-title {
             display: flex;
             align-items: center;
@@ -928,6 +987,23 @@
             .pricing-col-title {
                 font-size: 22px;
             }
+
+            .price-service-head {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .price-service-name {
+                font-size: 21px;
+            }
+
+            .price-service-meta {
+                font-size: 16px;
+            }
+
+            .price-service-desc {
+                font-size: 14px;
+            }
         }
 
         /* Booking */
@@ -1024,7 +1100,7 @@
             display: none;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px;
         }
 
         .booking-modal.open {
@@ -1034,48 +1110,180 @@
         .booking-modal-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(10, 2, 11, 0.72);
+            background: rgba(10, 2, 11, 0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            animation: bookingFade 0.25s ease;
         }
 
         .booking-modal-box {
             position: relative;
+            display: flex;
+            flex-direction: column;
             width: 100%;
-            max-width: 900px;
+            max-width: 860px;
             height: 90vh;
-            max-height: 860px;
+            max-height: 880px;
             overflow: hidden;
             background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 40px 90px rgba(10, 2, 11, 0.5);
+            animation: bookingPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes bookingFade {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes bookingPop {
+            from {
+                opacity: 0;
+                transform: translateY(16px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .booking-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-shrink: 0;
+            padding: 16px 18px 16px 22px;
+            background: var(--navy);
+            color: #fff;
+        }
+
+        .booking-modal-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .booking-modal-logo {
+            width: 42px;
+            height: 42px;
+            flex-shrink: 0;
+            object-fit: contain;
             border-radius: 8px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+            background: #fff;
+            padding: 4px;
+        }
+
+        .booking-modal-titles {
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .booking-modal-title {
+            font-family: var(--heading);
+            font-style: italic;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .booking-modal-sub {
+            font-size: 12.5px;
+            letter-spacing: 0.3px;
+            opacity: 0.72;
         }
 
         .booking-modal-close {
-            position: absolute;
-            top: 10px;
-            right: 14px;
-            z-index: 2;
+            flex-shrink: 0;
             width: 38px;
             height: 38px;
             border: 0;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 24px;
+            font-size: 22px;
             line-height: 1;
-            color: #333;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
-            transition: background 0.2s ease;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.14);
+            transition: background 0.2s ease, transform 0.2s ease;
         }
 
         .booking-modal-close:hover {
-            background: #ececec;
+            background: rgba(255, 255, 255, 0.28);
+            transform: rotate(90deg);
+        }
+
+        .booking-modal-body {
+            position: relative;
+            flex: 1;
+            min-height: 0;
+            background: #f7f3ea;
+        }
+
+        .booking-modal-loader {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            color: var(--muted);
+            pointer-events: none;
+        }
+
+        .booking-spinner {
+            width: 38px;
+            height: 38px;
+            border: 3px solid rgba(30, 3, 31, 0.15);
+            border-top-color: var(--navy);
+            border-radius: 50%;
+            animation: bookingSpin 0.8s linear infinite;
+        }
+
+        .booking-loader-text {
+            font-size: 13px;
+            letter-spacing: 0.4px;
+        }
+
+        @keyframes bookingSpin {
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         .booking-modal-frame {
+            position: relative;
+            z-index: 2;
             width: 100%;
             height: 100%;
             border: 0;
             display: block;
+        }
+
+        @media (max-width: 600px) {
+            .booking-modal {
+                padding: 0;
+            }
+
+            .booking-modal-box {
+                max-width: none;
+                height: 100%;
+                max-height: none;
+                border-radius: 0;
+            }
+
+            .booking-modal-sub {
+                display: none;
+            }
         }
 
         .booking-image {
@@ -2003,7 +2211,7 @@
     <header class="site-header">
         <nav class="nav-container">
             <a href="#" class="logo" aria-label="Soul & Body home">
-                <img src="logo1.webp" alt="Soul & Body" class="logo-img" />
+                <img src="logo3.webp" alt="Bevs Escape" class="logo-img" />
             </a>
 
             <div class="nav-links" id="navLinks">
@@ -2049,7 +2257,7 @@
                     Take a little time for yourself, refresh and relax.
                 </p>
 
-                <a href="#booking" class="learn-btn">Request a quote</a>
+                <button type="button" class="learn-btn" id="heroBooking">Book now</button>
             </div>
         </section>
 
@@ -2172,79 +2380,72 @@
                 </header>
 
                 <div class="pricing-card">
-                    <div class="pricing-grid">
+                    <div class="price-list">
 
-                        <div class="pricing-col">
-                            <h3 class="pricing-col-title">Massage Treatments</h3>
-
-                            <div class="price-item">
-                                <span class="price-name">Essential Massage
-                                    <small>30 minutes</small>
-                                </span>
-                                <span class="price-dots"></span>
-                                <span class="price-value">£35</span>
+                        <article class="price-service">
+                            <div class="price-service-head">
+                                <h3 class="price-service-name">Swedish Massage &ndash; Back, Neck &amp; Shoulders</h3>
+                                <span class="price-service-meta">£25.00 <span>&middot;</span> 30 min</span>
                             </div>
+                            <p class="price-service-desc">
+                                A relaxing, soothing massage focused on the back, neck and shoulders.
+                                Flowing Swedish techniques ease everyday muscle tension and leave you
+                                feeling refreshed. Let your therapist know if there's an area you'd
+                                like more time spent on.
+                            </p>
+                        </article>
 
-                            <div class="price-item">
-                                <span class="price-name">Essential Massage
-                                    <small>60 minutes</small>
-                                </span>
-                                <span class="price-dots"></span>
-                                <span class="price-value">£55</span>
+                        <article class="price-service">
+                            <div class="price-service-head">
+                                <h3 class="price-service-name">Swedish Massage &ndash; Full Body</h3>
+                                <span class="price-service-meta">£40.00 <span>&middot;</span> 1 hr</span>
                             </div>
+                            <p class="price-service-desc">
+                                A relaxing full-body massage using flowing Swedish techniques to ease
+                                everyday muscle tension and leave you feeling refreshed and restored.
+                                Tailored to you &ndash; just let your therapist know if there's an area
+                                you'd like more focus on.
+                            </p>
+                        </article>
 
-                            <div class="price-item">
-                                <span class="price-name">Deep Treatment
-                                    <small>60 minutes</small>
-                                </span>
-                                <span class="price-dots"></span>
-                                <span class="price-value">£65</span>
+                        <article class="price-service">
+                            <div class="price-service-head">
+                                <h3 class="price-service-name">Deep Tissue / Sports Massage</h3>
+                                <span class="price-service-meta">£27.00 <span>&middot;</span> 30 min</span>
                             </div>
+                            <p class="price-service-desc">
+                                A focused massage targeting a specific area of muscle tension, tightness
+                                or fatigue. Ideal when you have one area to concentrate on and don't need
+                                a full 60-minute treatment. Just tell your therapist where you'd like the
+                                main focus.
+                            </p>
+                        </article>
 
-                            <div class="price-item">
-                                <span class="price-name">Deep Treatment
-                                    <small>90 minutes</small>
-                                </span>
-                                <span class="price-dots"></span>
-                                <span class="price-value">£90</span>
+                        <article class="price-service">
+                            <div class="price-service-head">
+                                <h3 class="price-service-name">Deep Tissue / Sports Massage &ndash; Full Body</h3>
+                                <span class="price-service-meta">£45.00 <span>&middot;</span> 1 hr</span>
                             </div>
-                        </div>
+                            <p class="price-service-desc">
+                                A firm, focused full-body massage combining deeper pressure and targeted
+                                techniques to work on muscle tension, tightness and fatigue. Whether you
+                                want deeper relaxation or sports-style work, it's adapted to suit you and
+                                the areas you'd like to focus on.
+                            </p>
+                        </article>
 
-                        <div class="pricing-col">
-                            <h3 class="pricing-col-title">Specialist &amp; Add-ons</h3>
-
-                            <div class="price-item">
-                                <span class="price-name">Sports Massage
-                                    <small>60 minutes</small>
-                                </span>
-                                <span class="price-dots"></span>
-                                <span class="price-value">£60</span>
+                        <article class="price-service">
+                            <div class="price-service-head">
+                                <h3 class="price-service-name">Reflexology</h3>
+                                <span class="price-service-meta">£45.00 <span>&middot;</span> 30 min</span>
                             </div>
-
-                            <div class="price-item">
-                                <span class="price-name">Medical Massage
-                                    <small>60 minutes</small>
-                                </span>
-                                <span class="price-dots"></span>
-                                <span class="price-value">£70</span>
-                            </div>
-
-                            <div class="price-item">
-                                <span class="price-name">Hot Stone Add-on
-                                    <small>per session</small>
-                                </span>
-                                <span class="price-dots"></span>
-                                <span class="price-value">£15</span>
-                            </div>
-
-                            <div class="price-item">
-                                <span class="price-name">Aromatherapy Oils
-                                    <small>per session</small>
-                                </span>
-                                <span class="price-dots"></span>
-                                <span class="price-value">£10</span>
-                            </div>
-                        </div>
+                            <p class="price-service-desc">
+                                A deeply relaxing, holistic treatment working reflex points across the feet
+                                that correspond with different areas of the body. Targeted pressure helps
+                                encourage relaxation, restore balance and promote a sense of wellbeing.
+                                Pressure can be adapted to your preference.
+                            </p>
+                        </article>
 
                     </div>
 
@@ -2281,10 +2482,25 @@
         <div class="booking-modal" id="bookingModal" role="dialog" aria-modal="true" aria-label="Book an appointment">
             <div class="booking-modal-overlay" data-close-booking></div>
             <div class="booking-modal-box">
-                <button type="button" class="booking-modal-close" id="closeBooking"
-                    aria-label="Close booking">&times;</button>
-                <iframe class="booking-modal-frame" id="bookingFrame" title="Book an appointment" loading="lazy"
-                    allow="payment"></iframe>
+                <header class="booking-modal-header">
+                    <div class="booking-modal-brand">
+                        <img src="logo3.webp" alt="" class="booking-modal-logo" aria-hidden="true" />
+                        <div class="booking-modal-titles">
+                            <span class="booking-modal-title">Book an appointment</span>
+                            <span class="booking-modal-sub">Choose a time that suits you</span>
+                        </div>
+                    </div>
+                    <button type="button" class="booking-modal-close" id="closeBooking"
+                        aria-label="Close booking">&times;</button>
+                </header>
+                <div class="booking-modal-body">
+                    <div class="booking-modal-loader" id="bookingLoader" aria-hidden="true">
+                        <span class="booking-spinner"></span>
+                        <span class="booking-loader-text">Loading availability&hellip;</span>
+                    </div>
+                    <iframe class="booking-modal-frame" id="bookingFrame" title="Book an appointment" loading="lazy"
+                        allow="payment"></iframe>
+                </div>
             </div>
         </div>
 
@@ -2399,7 +2615,7 @@
     <footer class="footer">
         <div class="footer-inner">
             <div class="footer-brand">
-                <img src="logo1.webp" alt="Bevs Escape" />
+                <img src="logo3.webp" alt="Bevs Escape" />
             </div>
 
             <div class="footer-phone">
@@ -2457,8 +2673,15 @@
         const openBooking = document.getElementById("openBooking");
         const closeBooking = document.getElementById("closeBooking");
         const bookingFrame = document.getElementById("bookingFrame");
+        const bookingLoader = document.getElementById("bookingLoader");
         const bookingUrl =
             "https://book.squareup.com/appointments/n5zgthho77xvez/location/L6CNB4Y0861GP/services/3XRU4YUQZ66QEUJB7JC6WQQC";
+
+        bookingFrame.addEventListener("load", () => {
+            if (bookingFrame.src) {
+                bookingLoader.style.display = "none";
+            }
+        });
 
         function openBookingModal() {
             if (!bookingFrame.src) {
@@ -2473,7 +2696,12 @@
             document.body.style.overflow = "";
         }
 
+        const heroBooking = document.getElementById("heroBooking");
+
         openBooking.addEventListener("click", openBookingModal);
+        if (heroBooking) {
+            heroBooking.addEventListener("click", openBookingModal);
+        }
         closeBooking.addEventListener("click", closeBookingModal);
 
         bookingModal.querySelectorAll("[data-close-booking]").forEach((el) => {
